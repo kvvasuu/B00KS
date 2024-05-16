@@ -1,7 +1,7 @@
 <template>
   <div class="header">
-    <div class="input-container">
-      <h2>Choose list</h2>
+    <div v-if="!loading" class="input-container">
+      <h2 v-if="!booksFound">Choose list</h2>
       <select
         v-model="selectedList"
         @change="getBooks"
@@ -12,6 +12,15 @@
           {{ list.display_name }}
         </option>
       </select>
+    </div>
+    <div v-else class="spinner">
+      <div class="lds-dual-ring"></div>
+      <transition name="bounce">
+        <span v-if="requestsLimit"
+          >Too many requests.<br />
+          Wait {{ requestsLimitCounter }}s</span
+        ></transition
+      >
     </div>
   </div>
   <div class="items-container">
@@ -33,17 +42,35 @@ export default {
       listNamesURL: "https://api.nytimes.com/svc/books/v3/lists/names.json",
       apiKey: "hvuGvTjqrVzQ324M7QjKRnXzThqRlAAg",
       loading: false,
+      booksFound: false,
+      requestsLimit: false,
+      requestsLimitCounter: 30,
     };
   },
   methods: {
     async getListNames() {
       try {
+        this.loading = true;
         const response = await fetch(
           `${this.listNamesURL}?api-key=${this.apiKey}`
         );
         const resp = await response.json();
         this.lists = resp.results;
-        console.log(resp.results);
+        if (resp.fault) {
+          this.requestsLimit = true;
+          setInterval(() => {
+            if (this.requestsLimitCounter > 0) this.requestsLimitCounter--;
+          }, 1000);
+          setTimeout(() => {
+            this.loading = false;
+            this.requestsLimit = false;
+            this.requestsLimitCounter = 30;
+            this.getListNames();
+          }, 30000);
+        } else {
+          this.loading = false;
+          this.requestsLimitCounter = 30;
+        }
       } catch (error) {
         console.error(error);
       }
@@ -51,13 +78,22 @@ export default {
     async getBooks() {
       this.loading = true;
       try {
-        console.log(this.selectedList);
         const response = await fetch(this.booksURL);
         const resp = await response.json();
         this.books = resp.results.books;
         this.loading = false;
-        console.log(resp.results.books);
+        this.booksFound = true;
+        this.requestsLimitCounter = 30;
       } catch (error) {
+        this.requestsLimit = true;
+        setInterval(() => {
+          if (this.requestsLimitCounter > 0) this.requestsLimitCounter--;
+        }, 1000);
+        setTimeout(() => {
+          this.loading = false;
+          this.requestsLimit = false;
+          this.requestsLimitCounter = 30;
+        }, 30000);
         console.error(error);
       }
     },
@@ -107,5 +143,68 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   margin: 2rem 0 2rem 0;
+}
+
+/* Loading spinner */
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.spinner span {
+  font-size: 0.8rem;
+  color: #242424be;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.lds-dual-ring,
+.lds-dual-ring:after {
+  box-sizing: border-box;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 5rem;
+  height: 5rem;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  margin: 0.5rem;
+  border-radius: 50%;
+  border: 0.4rem solid currentColor;
+  border-color: currentColor transparent currentColor transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

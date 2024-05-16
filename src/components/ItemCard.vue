@@ -59,7 +59,7 @@ export default {
 }
 
 .card::after {
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   opacity: 0;
   border-radius: 1.4rem;
   position: absolute;
@@ -96,13 +96,11 @@ export default {
 
 .card:hover .book-image {
   translate: 0 -3px;
-  mix-blend-mode: normal;
 }
 
 .book-image {
   max-height: 10rem;
-  mix-blend-mode: multiply;
-  transition: translate 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .info {
@@ -134,12 +132,11 @@ export default {
   text-overflow: ellipsis;
 }
 
-/* Links styling */
-
 .link-icon {
   height: 2rem;
   margin: 0 0.5rem 0 0.5rem;
   border-radius: 0.3rem;
+  filter: drop-shadow(0 0.2rem 0.3rem rgba(0, 0, 0, 0.3));
 }
 .buy-caption {
   font-size: 0.8rem;
