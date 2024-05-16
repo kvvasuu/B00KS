@@ -32,7 +32,7 @@ export default {
       books: {},
       listNamesURL: "https://api.nytimes.com/svc/books/v3/lists/names.json",
       apiKey: "hvuGvTjqrVzQ324M7QjKRnXzThqRlAAg",
-      requestInProgress: false,
+      loading: false,
     };
   },
   methods: {
@@ -49,13 +49,13 @@ export default {
       }
     },
     async getBooks() {
-      this.requestInProgress = true;
+      this.loading = true;
       try {
         console.log(this.selectedList);
         const response = await fetch(this.booksURL);
         const resp = await response.json();
         this.books = resp.results.books;
-        this.requestInProgress = false;
+        this.loading = false;
         console.log(resp.results.books);
       } catch (error) {
         console.error(error);
