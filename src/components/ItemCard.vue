@@ -12,8 +12,13 @@
       </div>
     </div>
     <div class="buy-buttons">
-      <a v-for="link in book.buy_links" :href="link.url">
-        <div class="link-icon">{{ link.name }}</div>
+      <div class="buy-caption">Buy</div>
+      <a v-for="link in links" :href="link.url">
+        <img
+          :src="getLinkURL(link.name)"
+          class="link-icon"
+          :title="link.name"
+        />
       </a>
     </div>
   </div>
@@ -23,22 +28,27 @@
 export default {
   props: ["book"],
   data() {
-    return {
-      icons: {
-        amazon: "assets/amazon.png",
-      },
-    };
+    return {};
+  },
+  methods: {
+    getLinkURL(name) {
+      console.log(`/${name.toLowerCase().split(" ").join("-")}.png`);
+      return `/${name.toLowerCase().split(" ").join("-")}.png`;
+    },
+  },
+  computed: {
+    links() {
+      return this.book.buy_links.slice(0, 5);
+    },
   },
 };
 </script>
 
 <style scoped>
 .card {
-  background-color: #ffffff;
+  position: relative;
   height: 30rem;
   width: 20rem;
-  border: 2px solid rgba(0, 0, 0, 0.274);
-  border-radius: 1rem;
   margin: 2rem;
   padding: 1rem;
   box-sizing: border-box;
@@ -48,14 +58,51 @@ export default {
   flex-direction: column;
 }
 
+.card::after {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+  border-radius: 1.4rem;
+  position: absolute;
+  width: 20rem;
+  height: 24rem;
+  z-index: -2;
+  bottom: 0%;
+  content: "";
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.3);
+  background-color: rgb(9, 177, 199);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
 .book-image-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+}
+
+.book-image-container:after {
+  position: absolute;
+  width: 80%;
+  height: 10%;
+  top: 50%;
+  left: 10%;
+  background-color: transparent;
+  border-radius: 100px;
+  z-index: -1;
+  bottom: 0%;
+  content: "";
+  box-shadow: 0 5.6rem 1.5rem rgba(0, 0, 0, 0.3);
+}
+
+.card:hover .book-image {
+  translate: 0 -3px;
+  mix-blend-mode: normal;
 }
 
 .book-image {
   max-height: 10rem;
+  mix-blend-mode: multiply;
+  transition: translate 0.3s ease-in-out;
 }
 
 .info {
@@ -75,18 +122,29 @@ export default {
 .author {
   font-size: 0.9rem;
   color: #242424be;
+  text-align: center;
 }
 
 .description {
   text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
 /* Links styling */
 
 .link-icon {
-  width: 2rem;
   height: 2rem;
-  margin: 0 0.4rem 0 0.4rem;
+  margin: 0 0.5rem 0 0.5rem;
+  border-radius: 0.3rem;
+}
+.buy-caption {
+  font-size: 0.8rem;
+  color: #242424be;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 </style>

@@ -25,3 +25,9 @@ h1 {
   margin: 0 auto;
   padding: 2rem;
 }
+
+@media (max-width: 460px) {
+  :root {
+    font-size: 12px;
+  }
+}

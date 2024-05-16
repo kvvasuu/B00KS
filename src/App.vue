@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="input-container">
-      <h2>Choose category</h2>
+      <h2>Choose list</h2>
       <select
         v-model="selectedList"
         @change="getBooks"
@@ -106,5 +106,6 @@ export default {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  margin: 2rem 0 2rem 0;
 }
 </style>
