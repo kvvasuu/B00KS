@@ -2,20 +2,20 @@
   <div class="header">
     <div class="input-container">
       <h2>Choose category</h2>
-      <select class="select-category" name="categories">
-        <option v-for="category in categories" value="category">
-          {{ category }}
+      <select
+        v-model="selectedList"
+        @change="getBooks"
+        class="select-category"
+        name="categories"
+      >
+        <option v-for="list in lists" :value="list.list_name_encoded">
+          {{ list.display_name }}
         </option>
       </select>
     </div>
   </div>
   <div class="items-container">
-    <item-card></item-card>
-    <item-card></item-card>
-    <item-card></item-card>
-    <item-card></item-card>
-    <item-card></item-card>
-    <item-card></item-card>
+    <item-card v-for="book in books" :book="book"></item-card>
   </div>
 </template>
 
@@ -27,8 +27,48 @@ export default {
   },
   data() {
     return {
-      categories: ["ab", "adsa", "rtyetre", "dsade"],
+      lists: {},
+      selectedList: "",
+      books: {},
+      listNamesURL: "https://api.nytimes.com/svc/books/v3/lists/names.json",
+      apiKey: "hvuGvTjqrVzQ324M7QjKRnXzThqRlAAg",
+      requestInProgress: false,
     };
+  },
+  methods: {
+    async getListNames() {
+      try {
+        const response = await fetch(
+          `${this.listNamesURL}?api-key=${this.apiKey}`
+        );
+        const resp = await response.json();
+        this.lists = resp.results;
+        console.log(resp.results);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getBooks() {
+      this.requestInProgress = true;
+      try {
+        console.log(this.selectedList);
+        const response = await fetch(this.booksURL);
+        const resp = await response.json();
+        this.books = resp.results.books;
+        this.requestInProgress = false;
+        console.log(resp.results.books);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+  mounted() {
+    this.getListNames();
+  },
+  computed: {
+    booksURL() {
+      return `https://api.nytimes.com/svc/books/v3/lists/current/${this.selectedList}.json?api-key=${this.apiKey}`;
+    },
   },
 };
 </script>
