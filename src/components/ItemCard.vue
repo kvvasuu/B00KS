@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     getLinkURL(name) {
-      console.log(`/${name.toLowerCase().split(" ").join("-")}.png`);
       return `/${name.toLowerCase().split(" ").join("-")}.png`;
     },
   },
