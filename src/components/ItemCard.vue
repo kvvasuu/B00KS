@@ -61,6 +61,8 @@ export default {
   transition: opacity 0.3s ease-in-out;
   opacity: 0;
   border-radius: 1.4rem;
+  /* border-top-left-radius: 0;
+  border-top-right-radius: 0; */
   position: absolute;
   width: 20rem;
   height: 24rem;
@@ -68,7 +70,12 @@ export default {
   bottom: 0%;
   content: "";
   box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.3);
-  background-color: rgb(9, 177, 199);
+  background: rgb(9, 177, 199);
+  /* background: linear-gradient(
+    0deg,
+    rgba(9, 177, 199, 1) 70%,
+    rgba(180, 117, 44, 0) 100%
+  ); */
 }
 
 .card:hover::after {

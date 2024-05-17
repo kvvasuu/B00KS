@@ -16,14 +16,14 @@
     <div v-else class="spinner">
       <div class="lds-dual-ring"></div>
       <transition name="bounce">
-        <span v-if="requestsLimit"
+        <span class="loading" v-if="requestsLimit"
           >Too many requests.<br />
-          Wait {{ requestsLimitCounter }}s</span
+          Please wait</span
         ></transition
       >
     </div>
   </div>
-  <div class="items-container">
+  <div v-if="!loading" class="items-container">
     <item-card v-for="book in books" :book="book"></item-card>
   </div>
 </template>
@@ -44,7 +44,6 @@ export default {
       loading: false,
       booksFound: false,
       requestsLimit: false,
-      requestsLimitCounter: 30,
     };
   },
   methods: {
@@ -58,9 +57,6 @@ export default {
         this.lists = resp.results;
         if (resp.fault) {
           this.requestsLimit = true;
-          setInterval(() => {
-            if (this.requestsLimitCounter > 0) this.requestsLimitCounter--;
-          }, 1000);
           setTimeout(() => {
             this.loading = false;
             this.requestsLimit = false;
@@ -86,9 +82,6 @@ export default {
         this.requestsLimitCounter = 30;
       } catch (error) {
         this.requestsLimit = true;
-        setInterval(() => {
-          if (this.requestsLimitCounter > 0) this.requestsLimitCounter--;
-        }, 1000);
         setTimeout(() => {
           this.loading = false;
           this.requestsLimit = false;
@@ -205,6 +198,21 @@ export default {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  animation: ellipsis steps(4, end) 2000ms infinite;
+  content: "\2026";
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1rem;
   }
 }
 </style>
