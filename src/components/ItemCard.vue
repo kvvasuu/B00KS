@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="book-image-container">
-      <img :src="book.book_image" class="book-image" />
+      <img :src="book.book_image" class="book-image" :title="book.title" />
     </div>
 
     <div class="info">
@@ -13,7 +13,7 @@
     </div>
     <div class="buy-buttons">
       <div class="buy-caption">Buy</div>
-      <a v-for="link in links" :href="link.url">
+      <a v-for="link in links" :href="link.url" target="_blank">
         <img
           :src="getLinkURL(link.name)"
           class="link-icon"
@@ -102,11 +102,13 @@ export default {
 
 .card:hover .book-image {
   translate: 0 -3px;
+  mix-blend-mode: normal;
 }
 
 .book-image {
   max-height: 10rem;
   transition: all 0.3s ease-in-out;
+  mix-blend-mode: multiply;
 }
 
 .info {

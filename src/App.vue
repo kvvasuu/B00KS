@@ -1,7 +1,18 @@
 <template>
   <div class="header">
     <div v-if="!loading" class="input-container">
-      <h2 v-if="!booksFound">Choose list</h2>
+      <div v-if="!booksFound" class="header-text">
+        <div class="header-title">B00KS</div>
+        <div class="header-description">
+          B00KS is your window to the world of the latest literary bestsellers,
+          straight from The New York Times. Our app, integrated with the NYT
+          API, updates daily with the top books across various categories. Dive
+          into the world of literature, discover new titles, and stay up-to-date
+          with what everyone is reading.
+        </div>
+        <div class="header-caption">Select list</div>
+      </div>
+
       <select
         v-model="selectedList"
         @change="getBooks"
@@ -110,6 +121,32 @@ export default {
   justify-content: center;
 }
 
+.header-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 3rem;
+  margin: 1rem;
+  font-weight: bold;
+  filter: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.3));
+}
+
+.header-description {
+  margin: 0 1rem 1rem 1rem;
+  max-width: 40rem;
+  text-align: center;
+  color: #181818be;
+}
+
+.header-caption {
+  font-weight: bold;
+  margin: 0.6rem;
+}
+
 .input-container {
   display: flex;
   align-items: center;
@@ -125,8 +162,8 @@ export default {
   width: 20rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 0.25em;
-  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
@@ -172,7 +209,7 @@ export default {
   border-radius: 50%;
   border: 0.4rem solid currentColor;
   border-color: currentColor transparent currentColor transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
+  animation: lds-dual-ring 2s linear infinite;
 }
 @keyframes lds-dual-ring {
   0% {
