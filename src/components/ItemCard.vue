@@ -87,6 +87,7 @@ export default {
 }
 
 .book-image-container:after {
+  /* book shadow */
   position: absolute;
   width: 80%;
   height: 10%;
@@ -102,13 +103,11 @@ export default {
 
 .card:hover .book-image {
   translate: 0 -3px;
-  mix-blend-mode: normal;
 }
 
 .book-image {
   max-height: 10rem;
   transition: all 0.3s ease-in-out;
-  mix-blend-mode: multiply;
 }
 
 .info {
