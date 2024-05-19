@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <div class="book-image-container">
+      <div class="rank">{{ book.rank }}</div>
       <img :src="book.book_image" class="book-image" :title="book.title" />
     </div>
 
@@ -37,6 +38,7 @@ export default {
   },
   computed: {
     links() {
+      console.log(this.book);
       return this.book.buy_links.slice(0, 5);
     },
   },
@@ -99,6 +101,18 @@ export default {
   bottom: 0%;
   content: "";
   box-shadow: 0 5.6rem 1.5rem rgba(0, 0, 0, 0.3);
+}
+
+.rank {
+  font-size: 3rem;
+  position: absolute;
+  top: -7%;
+  left: -90%;
+  border-radius: 100px;
+  z-index: 2;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+  color: rgb(9, 177, 199);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 .card:hover .book-image {
