@@ -2,6 +2,9 @@
   <div class="card">
     <div class="book-image-container">
       <div class="rank">{{ book.rank }}</div>
+      <div class="weeks-on-list">
+        {{ book.weeks_on_list }} weeks <br />on list
+      </div>
       <img :src="book.book_image" class="book-image" :title="book.title" />
     </div>
 
@@ -67,7 +70,7 @@ export default {
   border-top-right-radius: 0; */
   position: absolute;
   width: 20rem;
-  height: 24rem;
+  height: 23rem;
   z-index: -2;
   bottom: 0%;
   content: "";
@@ -113,6 +116,16 @@ export default {
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
   color: rgb(9, 177, 199);
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.weeks-on-list {
+  font-size: 0.8rem;
+  position: absolute;
+  top: 30%;
+  left: -88%;
+  border-radius: 100px;
+  z-index: 2;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
 }
 
 .card:hover .book-image {
