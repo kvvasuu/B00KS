@@ -2,9 +2,7 @@
   <div class="card">
     <div class="book-image-container">
       <div class="rank">{{ book.rank }}</div>
-      <div class="weeks-on-list">
-        {{ book.weeks_on_list }} weeks <br />on list
-      </div>
+      <div class="weeks-on-list">{{ weeksOnList }} weeks <br />on list</div>
       <img :src="book.book_image" class="book-image" :title="book.title" />
     </div>
 
@@ -43,6 +41,9 @@ export default {
     links() {
       console.log(this.book);
       return this.book.buy_links.slice(0, 5);
+    },
+    weeksOnList() {
+      return this.book.weeks_on_list || `< ${this.book.weeks_on_list + 1}`;
     },
   },
 };

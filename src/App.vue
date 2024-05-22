@@ -1,8 +1,8 @@
 <template>
   <div class="header">
+    <div class="header-title">B00KS</div>
     <div v-if="!loading" class="input-container">
       <div v-if="!booksFound" class="header-text">
-        <div class="header-title">B00KS</div>
         <div class="header-description">
           B00KS is your window to the world of the latest literary bestsellers,
           straight from The New York Times. Our app, integrated with the NYT
@@ -10,6 +10,7 @@
           into the world of literature, discover new titles, and stay up-to-date
           with what everyone is reading.
         </div>
+
         <div class="header-caption">Select list</div>
       </div>
 
@@ -22,6 +23,12 @@
         <option v-for="list in lists" :value="list.list_name_encoded">
           {{ list.display_name }}
         </option>
+      </select>
+      <select v-if="booksFound" class="select-sort" name="select-sort" @change="sortBooks($event.target.value)">
+        <option value="rank_asc">Rank (ascending) &#11165</option>
+        <option value="rank_desc">Rank (descending) &#11167</option>
+        <option value="weeks_asc">Weeks on list (ascending) &#11165</option>
+        <option value="weeks_desc">Weeks on list (descending) &#11167</option>
       </select>
     </div>
     <div v-else class="spinner">
@@ -101,6 +108,16 @@ export default {
         console.error(error);
       }
     },
+    sortBooks(type){ //not working - try computed(vue does not see sort as change of array)
+      type = [...type.split("_")]
+      if(type[1] = "asc"){
+        this.books.sort((a, b) => a.rank - b.rank)
+      }
+      else{
+        this.books.sort((a, b) => b.rank - a.rank)
+      }
+      console.log(type)
+    }
   },
   mounted() {
     this.getListNames();
@@ -119,6 +136,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .header-text {
@@ -165,6 +183,20 @@ export default {
   border-radius: 0.25rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+
+.select-sort {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin: 1rem 0 0 0;
 }
 
 .items-container {
