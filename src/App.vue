@@ -24,7 +24,7 @@
           {{ list.display_name }}
         </option>
       </select>
-      <select v-if="booksFound" class="select-sort" name="select-sort" @change="sortBooks($event.target.value)">
+      <select v-if="booksFound" class="select-sort" name="select-sort" v-model="sortBy">
         <option value="rank_asc">Rank (ascending) &#11165</option>
         <option value="rank_desc">Rank (descending) &#11167</option>
         <option value="weeks_asc">Weeks on list (ascending) &#11165</option>
@@ -42,7 +42,7 @@
     </div>
   </div>
   <div v-if="!loading" class="items-container">
-    <item-card v-for="book in books" :book="book"></item-card>
+    <item-card v-for="book in sortedBooks" :book="book"></item-card>
   </div>
 </template>
 
@@ -62,6 +62,7 @@ export default {
       loading: false,
       booksFound: false,
       requestsLimit: false,
+      sortBy: "rank_asc",
     };
   },
   methods: {
@@ -108,16 +109,6 @@ export default {
         console.error(error);
       }
     },
-    sortBooks(type){ //not working - try computed(vue does not see sort as change of array)
-      type = [...type.split("_")]
-      if(type[1] = "asc"){
-        this.books.sort((a, b) => a.rank - b.rank)
-      }
-      else{
-        this.books.sort((a, b) => b.rank - a.rank)
-      }
-      console.log(type)
-    }
   },
   mounted() {
     this.getListNames();
@@ -126,6 +117,17 @@ export default {
     booksURL() {
       return `https://api.nytimes.com/svc/books/v3/lists/current/${this.selectedList}.json?api-key=${this.apiKey}`;
     },
+    sortedBooks(){ 
+      let type = this.sortBy.split("_")
+      if(type[1] = "desc"){
+        console.log("dsadsa")
+        console.log(type)
+        /* return this.books.sort((a, b) => a.rank - b.rank) */
+      }
+      else{
+        /* return this.books.sort((a, b) => b.rank - a.rank) */
+      }
+    }
   },
 };
 </script>
@@ -186,6 +188,7 @@ export default {
 }
 
 .select-sort {
+  position: relative;
   appearance: none;
   border: 0;
   outline: 0;
