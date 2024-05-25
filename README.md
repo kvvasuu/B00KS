@@ -15,6 +15,8 @@ Each book is displayed in a component that contains a photo, title, author, desc
 Due to the API request limit of 5 per minute, the application has a cooldown timer 30 seconds that is displayed when sending a request after exceeding the limit.
 You can check this, for example, by changing the list several times in a row or refreshing the page several times.
 
+The application has been deployed on Netlify - [https://b00ks.netlify.app/](https://b00ks.netlify.app/)
+
 ## Technologies:
 
 - Vue
