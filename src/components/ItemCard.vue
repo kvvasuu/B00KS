@@ -1,8 +1,8 @@
 <template>
   <div class="card">
-    <div class="book-image-container">
-      <div class="rank">{{ book.rank }}</div>
-      <div class="weeks-on-list">{{ weeksOnList }} weeks <br />on list</div>
+    <div class="rank">{{ book.rank }}</div>
+    <div class="weeks-on-list">{{ weeksOnList }} weeks <br />on list</div>
+    <div class="book-image-container" @click="itemModalHandle">
       <img :src="book.book_image" class="book-image" :title="book.title" />
     </div>
 
@@ -24,22 +24,36 @@
       </a>
     </div>
   </div>
+  <transition name="fade">
+    <item-modal
+      v-if="itemModalShow"
+      @toggle-modal="itemModalHandle"
+      :book="book"
+    ></item-modal>
+  </transition>
 </template>
 
 <script>
+import ItemModal from "./ItemModal.vue";
+
 export default {
   props: ["book"],
+  components: {
+    ItemModal,
+  },
   data() {
-    return {};
+    return { itemModalShow: false };
   },
   methods: {
     getLinkURL(name) {
       return `/${name.toLowerCase().split(" ").join("-")}.png`;
     },
+    itemModalHandle() {
+      this.itemModalShow = !this.itemModalShow;
+    },
   },
   computed: {
     links() {
-      console.log(this.book);
       return this.book.buy_links.slice(0, 5);
     },
     weeksOnList() {
@@ -67,8 +81,6 @@ export default {
   transition: opacity 0.3s ease-in-out;
   opacity: 0;
   border-radius: 1.4rem;
-  /* border-top-left-radius: 0;
-  border-top-right-radius: 0; */
   position: absolute;
   width: 20rem;
   height: 23rem;
@@ -77,11 +89,6 @@ export default {
   content: "";
   box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.3);
   background: rgb(9, 177, 199);
-  /* background: linear-gradient(
-    0deg,
-    rgba(9, 177, 199, 1) 70%,
-    rgba(180, 117, 44, 0) 100%
-  ); */
 }
 
 .card:hover::after {
@@ -89,6 +96,7 @@ export default {
 }
 
 .book-image-container {
+  cursor: pointer;
   position: relative;
 }
 
@@ -110,8 +118,8 @@ export default {
 .rank {
   font-size: 3rem;
   position: absolute;
-  top: -7%;
-  left: -90%;
+  top: 0;
+  left: 0.4rem;
   border-radius: 100px;
   z-index: 2;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
@@ -122,8 +130,8 @@ export default {
 .weeks-on-list {
   font-size: 0.8rem;
   position: absolute;
-  top: 30%;
-  left: -88%;
+  top: 3.8rem;
+  left: 0.4rem;
   border-radius: 100px;
   z-index: 2;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
@@ -178,5 +186,17 @@ export default {
   color: #242424be;
   text-align: center;
   margin-bottom: 0.5rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+  animation: blur-in 0.5s ease-in-out forwards;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  animation: blur-out 0.5s ease-in-out forwards;
 }
 </style>

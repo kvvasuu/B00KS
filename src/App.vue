@@ -56,7 +56,7 @@ export default {
     return {
       lists: {},
       selectedList: "",
-      books: {},
+      books: [],
       listNamesURL: "https://api.nytimes.com/svc/books/v3/lists/names.json",
       apiKey: "hvuGvTjqrVzQ324M7QjKRnXzThqRlAAg",
       loading: false,
@@ -118,15 +118,15 @@ export default {
       return `https://api.nytimes.com/svc/books/v3/lists/current/${this.selectedList}.json?api-key=${this.apiKey}`;
     },
     sortedBooks(){ 
-      let type = this.sortBy.split("_")
-      if(type[1] = "desc"){
-        console.log("dsadsa")
-        console.log(type)
-        /* return this.books.sort((a, b) => a.rank - b.rank) */
+      if(this.sortBy.split("_")[0] == "weeks"){
+        if(this.sortBy.split("_")[1] == "asc"){
+          return [...this.books].sort((a, b) => (a.weeks_on_list > b.weeks_on_list) ? 1 : ((b.weeks_on_list> a.weeks_on_list) ? -1 : 0))
+        } else return [...this.books].sort((a, b) => (a.weeks_on_list > b.weeks_on_list) ? 1 : ((b.weeks_on_list> a.weeks_on_list) ? -1 : 0)).reverse()
       }
-      else{
-        /* return this.books.sort((a, b) => b.rank - a.rank) */
+      else if(this.sortBy.split("_")[1] == "desc"){
+        return [...this.books].reverse()
       }
+      return this.books
     }
   },
 };
