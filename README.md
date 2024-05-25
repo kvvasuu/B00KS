@@ -1,6 +1,6 @@
 # B00KS
 
-![App demo]([https://raw.githubusercontent.com/kvvasuu/pokemon-search/master/demo.png](https://raw.githubusercontent.com/kvvasuu/B00KS/main/demo.png) "App demo")
+![App demo](https://raw.githubusercontent.com/kvvasuu/B00KS/main/demo.png "App demo")
 
 ## General info
 
