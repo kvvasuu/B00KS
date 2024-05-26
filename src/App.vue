@@ -24,21 +24,57 @@
           {{ list.display_name }}
         </option>
       </select>
-      <select
-        v-if="booksFound"
-        class="select-sort"
-        name="select-sort"
-        v-model="sortBy"
-      >
-        <option value="rank_asc" class="option-asc">Rank (ascending)</option>
-        <option value="rank_desc" class="option-desc">Rank (descending)</option>
-        <option value="weeks_asc" class="option-asc">
-          Weeks on list (ascending)
-        </option>
-        <option value="weeks_desc" class="option-desc">
-          Weeks on list (descending)
-        </option>
-      </select>
+      <div v-if="booksFound" class="select" tabindex="1">
+        <input
+          class="selectopt"
+          value="rank_asc"
+          name="sort"
+          type="radio"
+          id="opt1"
+          @click="sort($event.target.value)"
+          checked
+        />
+        <label for="opt1" class="option"
+          >Rank &nbsp
+          <i class="fa-solid fa-sort-up" style="margin-top: 0.5rem"></i
+        ></label>
+        <input
+          class="selectopt"
+          value="rank_desc"
+          name="sort"
+          type="radio"
+          id="opt2"
+          @click="sort($event.target.value)"
+        />
+        <label for="opt2" class="option"
+          >Rank &nbsp
+          <i class="fa-solid fa-sort-down" style="margin-top: -0.3rem"></i
+        ></label>
+        <input
+          class="selectopt"
+          value="weeks_asc"
+          name="sort"
+          type="radio"
+          id="opt3"
+          @click="sort($event.target.value)"
+        />
+        <label for="opt3" class="option"
+          >Weeks on list &nbsp
+          <i class="fa-solid fa-sort-up" style="margin-top: 0.5rem"></i
+        ></label>
+        <input
+          class="selectopt"
+          value="weeks_desc"
+          name="sort"
+          type="radio"
+          id="opt4"
+          @click="sort($event.target.value)"
+        />
+        <label for="opt4" class="option"
+          >Weeks on list &nbsp
+          <i class="fa-solid fa-sort-down" style="margin-top: -0.3rem"></i
+        ></label>
+      </div>
     </div>
     <div v-else class="spinner">
       <div class="lds-dual-ring"></div>
@@ -117,6 +153,9 @@ export default {
         }, 30000);
         console.error(error);
       }
+    },
+    sort(type) {
+      this.sortBy = type;
     },
   },
   mounted() {
@@ -199,30 +238,92 @@ export default {
 
 .select-category {
   appearance: none;
+  -webkit-appearance: none;
   border: 0;
   outline: 0;
   font: inherit;
   width: 20rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 0.25rem;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0.8rem 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
-.select-sort {
-  position: relative;
+.select {
+  -webkit-appearance: none;
   appearance: none;
-  border: 0;
-  outline: 0;
-  font: inherit;
-  font-size: 0.8rem;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 0.25rem;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  margin: 1rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 12rem;
+  height: 2rem;
+  margin: 1rem;
+  box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.option {
+  padding: 0 2rem 0 0.7rem;
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-top: #dddddd solid 1px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  order: 2;
+  z-index: 11;
+  transition: background 0.4s ease-in-out;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.option:hover {
+  background: #dddddd;
+}
+
+.select:focus .option {
+  position: relative;
+  pointer-events: all;
+}
+
+input {
+  opacity: 0;
+  position: absolute;
+  left: -99999px;
+}
+
+input:checked + label {
+  order: 1;
+  z-index: 12;
+  background: #ffffff;
+  border-top: none;
+  position: relative;
+}
+
+input:checked + label:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 0.4rem solid transparent;
+  border-right: 0.4rem solid transparent;
+  border-top: 0.4rem solid #cccccc;
+  position: absolute;
+  right: 0.7rem;
+  top: calc(50% - 0.16rem);
+  pointer-events: none;
+  z-index: 13;
+}
+
+input:checked + label:before {
+  position: absolute;
+  right: 0;
+  height: 2rem;
+  width: 2.2rem;
+  content: "";
+  background: #ffffff;
 }
 
 .items-container {

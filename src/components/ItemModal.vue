@@ -1,30 +1,14 @@
 <template>
   <div @click="() => this.$emit('toggle-modal')" class="item-modal">
     <div class="item-modal-content" @click.stop="">
-      <img :src="book.book_image" class="book-image" :title="book.title" />
+      <img :src="bookImage" class="book-image" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["book"],
-  data() {
-    return {};
-  },
-  methods: {
-    getLinkURL(name) {
-      return `/${name.toLowerCase().split(" ").join("-")}.png`;
-    },
-  },
-  computed: {
-    links() {
-      return this.book.buy_links.slice(0, 5);
-    },
-    weeksOnList() {
-      return this.book.weeks_on_list || `< ${this.book.weeks_on_list + 1}`;
-    },
-  },
+  props: ["bookImage"],
 };
 </script>
 

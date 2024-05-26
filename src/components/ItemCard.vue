@@ -28,7 +28,7 @@
     <item-modal
       v-if="itemModalShow"
       @toggle-modal="itemModalHandle"
-      :book="book"
+      :bookImage="book.book_image"
     ></item-modal>
   </transition>
 </template>
