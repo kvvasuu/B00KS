@@ -25,10 +25,10 @@
         </option>
       </select>
       <select v-if="booksFound" class="select-sort" name="select-sort" v-model="sortBy">
-        <option value="rank_asc">Rank (ascending) &#11165</option>
-        <option value="rank_desc">Rank (descending) &#11167</option>
-        <option value="weeks_asc">Weeks on list (ascending) &#11165</option>
-        <option value="weeks_desc">Weeks on list (descending) &#11167</option>
+        <option value="rank_asc" class="option-asc">Rank (ascending) &#11165</option>
+        <option value="rank_desc" class="option-desc">Rank (descending) &#11167</option>
+        <option value="weeks_asc" class="option-asc">Weeks on list (ascending) &#11165</option>
+        <option value="weeks_desc" class="option-desc">Weeks on list (descending) &#11167</option>
       </select>
     </div>
     <div v-else class="spinner">
