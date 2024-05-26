@@ -190,13 +190,13 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
-  animation: blur-in 0.5s ease-in-out forwards;
+  transition: opacity 0.3s ease;
+  animation: blur-in 0.3s ease-in-out forwards;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  animation: blur-out 0.5s ease-in-out forwards;
+  animation: blur-out 0.3s ease-in-out forwards;
 }
 </style>

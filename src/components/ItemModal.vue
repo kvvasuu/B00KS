@@ -41,8 +41,8 @@ export default {
   height: 100%;
   overflow: auto;
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
 }
 
 .item-modal-content {
