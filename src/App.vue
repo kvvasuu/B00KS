@@ -24,11 +24,20 @@
           {{ list.display_name }}
         </option>
       </select>
-      <select v-if="booksFound" class="select-sort" name="select-sort" v-model="sortBy">
-        <option value="rank_asc" class="option-asc">Rank (ascending) &#11165</option>
-        <option value="rank_desc" class="option-desc">Rank (descending) &#11167</option>
-        <option value="weeks_asc" class="option-asc">Weeks on list (ascending) &#11165</option>
-        <option value="weeks_desc" class="option-desc">Weeks on list (descending) &#11167</option>
+      <select
+        v-if="booksFound"
+        class="select-sort"
+        name="select-sort"
+        v-model="sortBy"
+      >
+        <option value="rank_asc" class="option-asc">Rank (ascending)</option>
+        <option value="rank_desc" class="option-desc">Rank (descending)</option>
+        <option value="weeks_asc" class="option-asc">
+          Weeks on list (ascending)
+        </option>
+        <option value="weeks_desc" class="option-desc">
+          Weeks on list (descending)
+        </option>
       </select>
     </div>
     <div v-else class="spinner">
@@ -117,17 +126,31 @@ export default {
     booksURL() {
       return `https://api.nytimes.com/svc/books/v3/lists/current/${this.selectedList}.json?api-key=${this.apiKey}`;
     },
-    sortedBooks(){ 
-      if(this.sortBy.split("_")[0] == "weeks"){
-        if(this.sortBy.split("_")[1] == "asc"){
-          return [...this.books].sort((a, b) => (a.weeks_on_list > b.weeks_on_list) ? 1 : ((b.weeks_on_list> a.weeks_on_list) ? -1 : 0))
-        } else return [...this.books].sort((a, b) => (a.weeks_on_list > b.weeks_on_list) ? 1 : ((b.weeks_on_list> a.weeks_on_list) ? -1 : 0)).reverse()
+    sortedBooks() {
+      if (this.sortBy.split("_")[0] == "weeks") {
+        if (this.sortBy.split("_")[1] == "asc") {
+          return [...this.books].sort((a, b) =>
+            a.weeks_on_list > b.weeks_on_list
+              ? 1
+              : b.weeks_on_list > a.weeks_on_list
+              ? -1
+              : 0
+          );
+        } else
+          return [...this.books]
+            .sort((a, b) =>
+              a.weeks_on_list > b.weeks_on_list
+                ? 1
+                : b.weeks_on_list > a.weeks_on_list
+                ? -1
+                : 0
+            )
+            .reverse();
+      } else if (this.sortBy.split("_")[1] == "desc") {
+        return [...this.books].reverse();
       }
-      else if(this.sortBy.split("_")[1] == "desc"){
-        return [...this.books].reverse()
-      }
-      return this.books
-    }
+      return this.books;
+    },
   },
 };
 </script>
