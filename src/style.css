@@ -31,3 +31,22 @@ h1 {
     font-size: 12px;
   }
 }
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(250, 250, 250);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgb(9, 177, 199);
+  border-radius: 10px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: rgb(9, 177, 199) rgb(250, 250, 250);
+  }
+}
